@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Security Alert</title>
+
+<style>
+body{
+  margin:0;
+  background:black;
+  color:white;
+  font-family:monospace;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
+  flex-direction:column;
+  text-align:center;
+}
+
+#text{
+  opacity:0;
+  transition:opacity 2s;
+}
+
+.red{
+  color:red;
+}
+
+@keyframes flash{
+  0%{background:black;}
+  50%{background:red;}
+  100%{background:black;}
+}
+
+.flash{
+  animation:flash 0.2s 6;
+}
+
+@keyframes glitch{
+  0%{transform:translate(0);}
+  20%{transform:translate(-5px,5px);}
+  40%{transform:translate(5px,-5px);}
+  60%{transform:translate(-5px,-5px);}
+  80%{transform:translate(5px,5px);}
+  100%{transform:translate(0);}
+}
+
+.glitch{
+  animation:glitch 0.15s infinite;
+  color:red;
+  font-size:36px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="text">
+  <h1 class="glitch">Your device got hacked!</h1>
+  <h2 class="glitch">Downloading virus...</h2>
+  <h3 class="glitch" id="counter">10</h3>
+</div>
+
+<audio id="beep">
+<source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg">
+</audio>
+
+<script>
+let text = document.getElementById("text");
+let beep = document.getElementById("beep");
+let counter = document.getElementById("counter");
+
+// 3 sekonda ekran i zi
+setTimeout(()=>{
+  text.style.opacity = "1";
+},3000);
+
+// Red flash + glitch pas 5 sek
+setTimeout(()=>{
+  document.body.classList.add("flash");
+  beep.play();
+},5000);
+
+// Countdown fake
+let count = 10;
+let interval = setInterval(()=>{
+  counter.innerText = count;
+  count--;
+  if(count<0){
+    clearInterval(interval);
+  }
+},1000);
+
+</script>
+
+</body>
+</html>

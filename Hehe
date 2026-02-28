@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRITICAL_SYSTEM_ERROR_0x004F</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            cursor: none; /* Zhduk mausin për panik shtohet */
+        }
+
+        #terminal {
+            width: 80%;
+            max-width: 800px;
+            text-align: left;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .error-text { color: #ff0000; font-weight: bold; text-transform: uppercase; }
+        .glitch { animation: shake 0.1s infinite; }
+        
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            40% { transform: translate(3px, 2px) rotate(0deg); }
+            60% { transform: translate(-3px, 1px) rotate(-1deg); }
+            100% { transform: translate(1px, -2px) rotate(0deg); }
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 0, 0, 0.1);
+            pointer-events: none;
+            display: none;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body onclick="startPrank()">
+
+    <div id="terminal">
+        <div id="logs">
+            > Connection established... [OK]<br>
+            > Bypassing Firewall... [OK]<br>
+            > Accessing Private Files... [DONE]<br>
+            > <span class="error-text">CAUTION: SYSTEM BREACH DETECTED</span><br>
+        </div>
+        <h1 id="warning" class="hidden error-text glitch" style="font-size: 3rem;">PO SHKARKOHET ENTIRE DISK C:/...</h1>
+        <div id="user-info" class="hidden">
+            <p>IP ADRESA JOTE: <span id="ip">Duke kërkuar...</span></p>
+            <p>SISTEMI: <span id="os">Analizim...</span></p>
+            <p id="timer" style="font-size: 2rem; color: yellow;">0%</p>
+        </div>
+    </div>
+
+    <div id="overlay"></div>
+
+    <audio id="scarySound" loop>
+        <source src="https://www.soundjay.com/buttons/beep-01a.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function startPrank() {
+            // Aktivizon Fullscreen
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            }
+
+            // Aktivizon tingullin
+            document.getElementById('scarySound').play();
+            
+            // Shfaq informacionet e sistemit
+            document.getElementById('user-info').classList.remove('hidden');
+            document.getElementById('warning').classList.remove('hidden');
+            document.getElementById('os').innerText = navigator.platform + " (" + navigator.userAgent.slice(0,20) + "...)";
+            
+            // Merr IP-në (Fake/Real fetch)
+            fetch('https://api.ipify.org?format=json')
+                .then(res => res.json())
+                .then(data => document.getElementById('ip').innerText = data.ip);
+
+            // Efekti i overlay-it të kuq
+            setInterval(() => {
+                let ov = document.getElementById('overlay');
+                ov.style.display = ov.style.display === 'none' ? 'block' : 'none';
+            }, 100);
+
+            // Përqindja fake
+            let percent = 0;
+            let interval = setInterval(() => {
+                percent++;
+                document.getElementById('timer').innerText = "SHKARKIMI: " + percent + "%";
+                if (percent >= 100) {
+                    clearInterval(interval);
+                    alert("HIEROGLYPH VIRUS INSTALLED SUCCESSFULLY. BYE BYE :)");
+                }
+            }, 150);
+        }
+
+        // Parandalon mbylljen e lehtë (jo gjithmonë punon në të gjithë browserat)
+        window.onbeforeunload = function() {
+            return "A je e sigurt që do të ikësh? Virusi do të fshijë çdo gjë!";
+        };
+    </script>
+</body>
+</html>
